@@ -7,11 +7,13 @@ export function createDb({
 }: Pick<IUnleashConfig, 'db' | 'getLogger'>): Knex {
     const logger = getLogger('db-pool.js');
     return knex({
-        client: 'pg',
+        client: 'mysql2',
         version: db.version,
         connection: {
-            ...db,
-            application_name: db.applicationName,
+            host: db.host,
+            port: db.port,
+            user: db.user,
+            password: db.password,
         },
         pool: db.pool,
         searchPath: db.schema,
@@ -22,6 +24,7 @@ export function createDb({
             error: (msg) => logger.error(msg),
         },
     });
+
 }
 
 // for backward compatibility
